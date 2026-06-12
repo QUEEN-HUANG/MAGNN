@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>台灣城市即時天氣與五天預報</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="theme-system">
+    <!-- Background Wrapper -->
+    <div class="bg-wrapper" id="bg-wrapper"></div>
+    <div class="bg-overlay"></div>
+
+    <!-- App Container -->
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="brand">
+                <i data-lucide="cloud-sun" class="brand-icon"></i>
+                <h1>台灣氣象觀測站</h1>
+            </div>
+
+            <div class="controls">
+                <!-- City Selector -->
+                <div class="select-wrapper">
+                    <i data-lucide="map-pin" class="select-icon"></i>
+                    <select id="city-select" aria-label="選擇縣市">
+                        <!-- Cities will be populated by JS -->
+                    </select>
+                    <i data-lucide="chevron-down" class="select-chevron"></i>
+                </div>
+
+                <!-- Theme Switcher -->
+                <div class="theme-switcher" role="radiogroup" aria-label="主題切換">
+                    <button class="theme-btn" data-theme="light" title="亮色模式" aria-label="亮色模式">
+                        <i data-lucide="sun"></i>
+                        <span>亮色</span>
+                    </button>
+                    <button class="theme-btn" data-theme="dark" title="暗色模式" aria-label="暗色模式">
+                        <i data-lucide="moon"></i>
+                        <span>暗色</span>
+                    </button>
+                    <button class="theme-btn active" data-theme="system" title="跟隨系統" aria-label="跟隨系統">
+                        <i data-lucide="monitor"></i>
+                        <span>系統</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="app-main">
+            <!-- Left Column: Current Weather -->
+            <section class="current-weather-section" aria-labelledby="current-weather-title">
+                <h2 id="current-weather-title" class="sr-only">目前天氣資訊</h2>
+                <div class="weather-card glass">
+                    <div class="weather-card-header">
+                        <div class="location-info">
+                            <h3 id="current-city">--</h3>
+                            <span id="current-time">--:--:--</span>
+                        </div>
+                        <div class="weather-badge" id="weather-description-badge">
+                            <span id="weather-badge-text">載入中...</span>
+                        </div>
+                    </div>
+
+                    <div class="weather-main">
+                        <div class="temp-display">
+                            <span class="temp-value" id="current-temp">--</span>
+                            <span class="temp-unit">°C</span>
+                        </div>
+                        <div class="weather-icon-wrapper">
+                            <div id="weather-icon-placeholder" class="weather-icon-main">
+                                <i data-lucide="cloud-lightning" class="loading-spin"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="temp-range-container">
+                        <span class="temp-range-item">
+                            <i data-lucide="arrow-up" class="temp-up-icon"></i>
+                            最高 <strong id="temp-max">--°</strong>
+                        </span>
+                        <span class="temp-divider">|</span>
+                        <span class="temp-range-item">
+                            <i data-lucide="arrow-down" class="temp-down-icon"></i>
+                            最低 <strong id="temp-min">--°</strong>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Detailed Metrics Grid -->
+                <div class="metrics-grid">
+                    <div class="metric-card glass">
+                        <div class="metric-icon-wrapper humidity">
+                            <i data-lucide="droplets"></i>
+                        </div>
+                        <div class="metric-info">
+                            <span class="metric-label">相對濕度</span>
+                            <span class="metric-value" id="metric-humidity">-- %</span>
+                        </div>
+                    </div>
+
+                    <div class="metric-card glass">
+                        <div class="metric-icon-wrapper wind">
+                            <i data-lucide="wind"></i>
+                        </div>
+                        <div class="metric-info">
+                            <span class="metric-label">風速</span>
+                            <span class="metric-value" id="metric-wind">-- m/s</span>
+                        </div>
+                    </div>
+
+                    <div class="metric-card glass">
+                        <div class="metric-icon-wrapper feel">
+                            <i data-lucide="thermometer"></i>
+                        </div>
+                        <div class="metric-info">
+                            <span class="metric-label">體感溫度</span>
+                            <span class="metric-value" id="metric-feels-like">-- °C</span>
+                        </div>
+                    </div>
+
+                    <div class="metric-card glass">
+                        <div class="metric-icon-wrapper pressure">
+                            <i data-lucide="gauge"></i>
+                        </div>
+                        <div class="metric-info">
+                            <span class="metric-label">大氣氣壓</span>
+                            <span class="metric-value" id="metric-pressure">-- hPa</span>
+                        </div>
+                    </div>
+
+                    <div class="metric-card glass">
+                        <div class="metric-icon-wrapper sunrise">
+                            <i data-lucide="sunrise"></i>
+                        </div>
+                        <div class="metric-info">
+                            <span class="metric-label">日出時間</span>
+                            <span class="metric-value" id="metric-sunrise">--:--</span>
+                        </div>
+                    </div>
+
+                    <div class="metric-card glass">
+                        <div class="metric-icon-wrapper sunset">
+                            <i data-lucide="sunset"></i>
+                        </div>
+                        <div class="metric-info">
+                            <span class="metric-label">日落時間</span>
+                            <span class="metric-value" id="metric-sunset">--:--</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Right Column: Forecast & Trend -->
+            <section class="forecast-section" aria-labelledby="forecast-title">
+                <div class="forecast-header-container">
+                    <h2 id="forecast-title">未來五天預報</h2>
+                    <span class="forecast-subtitle">溫度趨勢與天氣預測</span>
+                </div>
+
+                <!-- Forecast Cards Horizontal Scroll/Grid -->
+                <div class="forecast-grid" id="forecast-container">
+                    <!-- Cards will be populated by JS -->
+                    <div class="forecast-skeleton glass"></div>
+                    <div class="forecast-skeleton glass"></div>
+                    <div class="forecast-skeleton glass"></div>
+                    <div class="forecast-skeleton glass"></div>
+                    <div class="forecast-skeleton glass"></div>
+                </div>
+
+                <!-- Trend Chart Card -->
+                <div class="chart-card glass">
+                    <div class="chart-header">
+                        <i data-lucide="trending-up" class="chart-icon"></i>
+                        <h3>溫度趨勢變化圖 (°C)</h3>
+                    </div>
+                    <div class="chart-wrapper">
+                        <!-- Dynamic SVG Line Chart will be drawn here -->
+                        <div id="chart-container" class="svg-chart-container">
+                            <svg id="trend-svg" width="100%" height="100%" viewBox="0 0 600 200" preserveAspectRatio="none">
+                                <!-- Chart contents will be drawn dynamically -->
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <p>© 2026 台灣氣象觀測站. 資料來源：OpenWeather API. 更新時間：<span id="update-timestamp">--</span></p>
+        </footer>
+    </div>
+
+    <!-- Main Logic -->
+    <script src="app.js"></script>
+</body>
+</html>

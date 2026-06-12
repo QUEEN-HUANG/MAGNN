@@ -1,0 +1,901 @@
+/* --------------------------------------------------------------------------
+   台灣氣象觀測站 - 全域變數與主題設定
+-------------------------------------------------------------------------- */
+:root {
+    /* Font family */
+    --font-main: 'Outfit', 'Noto Sans TC', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    
+    /* Animation Speeds */
+    --transition-fast: 0.2s ease;
+    --transition-normal: 0.3s ease;
+    --transition-slow: 0.8s ease-in-out;
+}
+
+/* 亮色主題 (Light Theme) */
+.theme-light {
+    --bg-color-fallback: #f0f4f8;
+    --bg-overlay: rgba(240, 244, 248, 0.45);
+    --glass-bg: rgba(255, 255, 255, 0.65);
+    --glass-bg-hover: rgba(255, 255, 255, 0.8);
+    --glass-border: rgba(255, 255, 255, 0.5);
+    --glass-shadow: rgba(31, 38, 135, 0.08);
+    --text-main: #1e293b;
+    --text-muted: #64748b;
+    --accent-color: #3b82f6;
+    --accent-bg: rgba(59, 130, 246, 0.1);
+    --card-glow: rgba(59, 130, 246, 0.05);
+    
+    /* Weather Badges & Icons */
+    --badge-bg: rgba(255, 255, 255, 0.8);
+    --badge-border: rgba(59, 130, 246, 0.2);
+    --badge-text: #2563eb;
+    
+    /* Chart Styles */
+    --chart-line-max: #ef4444;
+    --chart-line-min: #0ea5e9;
+    --chart-fill-max: rgba(239, 68, 68, 0.1);
+    --chart-fill-min: rgba(14, 165, 233, 0.1);
+    --chart-text: #475569;
+    --chart-grid: rgba(0, 0, 0, 0.05);
+}
+
+/* 暗色主題 (Dark Theme) */
+.theme-dark {
+    --bg-color-fallback: #0f172a;
+    --bg-overlay: rgba(15, 23, 42, 0.7);
+    --glass-bg: rgba(15, 23, 42, 0.6);
+    --glass-bg-hover: rgba(30, 41, 59, 0.75);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-shadow: rgba(0, 0, 0, 0.4);
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --accent-color: #60a5fa;
+    --accent-bg: rgba(96, 165, 250, 0.15);
+    --card-glow: rgba(96, 165, 250, 0.05);
+
+    /* Weather Badges & Icons */
+    --badge-bg: rgba(30, 41, 59, 0.8);
+    --badge-border: rgba(96, 165, 250, 0.3);
+    --badge-text: #60a5fa;
+    
+    /* Chart Styles */
+    --chart-line-max: #f87171;
+    --chart-line-min: #38bdf8;
+    --chart-fill-max: rgba(248, 113, 113, 0.15);
+    --chart-fill-min: rgba(56, 189, 248, 0.15);
+    --chart-text: #cbd5e1;
+    --chart-grid: rgba(255, 255, 255, 0.05);
+}
+
+/* 跟隨系統 (System Prefers Dark/Light) */
+@media (prefers-color-scheme: dark) {
+    .theme-system {
+        --bg-color-fallback: #0f172a;
+        --bg-overlay: rgba(15, 23, 42, 0.7);
+        --glass-bg: rgba(15, 23, 42, 0.6);
+        --glass-bg-hover: rgba(30, 41, 59, 0.75);
+        --glass-border: rgba(255, 255, 255, 0.08);
+        --glass-shadow: rgba(0, 0, 0, 0.4);
+        --text-main: #f8fafc;
+        --text-muted: #94a3b8;
+        --accent-color: #60a5fa;
+        --accent-bg: rgba(96, 165, 250, 0.15);
+        --card-glow: rgba(96, 165, 250, 0.05);
+
+        --badge-bg: rgba(30, 41, 59, 0.8);
+        --badge-border: rgba(96, 165, 250, 0.3);
+        --badge-text: #60a5fa;
+
+        --chart-line-max: #f87171;
+        --chart-line-min: #38bdf8;
+        --chart-fill-max: rgba(248, 113, 113, 0.15);
+        --chart-fill-min: rgba(56, 189, 248, 0.15);
+        --chart-text: #cbd5e1;
+        --chart-grid: rgba(255, 255, 255, 0.05);
+    }
+}
+
+@media (prefers-color-scheme: light) {
+    .theme-system {
+        --bg-color-fallback: #f0f4f8;
+        --bg-overlay: rgba(240, 244, 248, 0.45);
+        --glass-bg: rgba(255, 255, 255, 0.65);
+        --glass-bg-hover: rgba(255, 255, 255, 0.8);
+        --glass-border: rgba(255, 255, 255, 0.5);
+        --glass-shadow: rgba(31, 38, 135, 0.08);
+        --text-main: #1e293b;
+        --text-muted: #64748b;
+        --accent-color: #3b82f6;
+        --accent-bg: rgba(59, 130, 246, 0.1);
+        --card-glow: rgba(59, 130, 246, 0.05);
+
+        --badge-bg: rgba(255, 255, 255, 0.8);
+        --badge-border: rgba(59, 130, 246, 0.2);
+        --badge-text: #2563eb;
+
+        --chart-line-max: #ef4444;
+        --chart-line-min: #0ea5e9;
+        --chart-fill-max: rgba(239, 68, 68, 0.1);
+        --chart-fill-min: rgba(14, 165, 233, 0.1);
+        --chart-text: #475569;
+        --chart-grid: rgba(0, 0, 0, 0.05);
+    }
+}
+
+/* --------------------------------------------------------------------------
+   基礎重設與全域樣式
+-------------------------------------------------------------------------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-main);
+    color: var(--text-main);
+    background-color: var(--bg-color-fallback);
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+    transition: color var(--transition-normal), background-color var(--transition-normal);
+}
+
+/* 背景圖及漸變遮罩 */
+.bg-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    transition: background-image var(--transition-slow);
+    transform: scale(1.02); /* 預防背景邊緣白邊 */
+}
+
+.bg-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background: var(--bg-overlay);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    transition: background var(--transition-normal), backdrop-filter var(--transition-normal);
+}
+
+/* 螢幕閱讀器專用 */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* --------------------------------------------------------------------------
+   玻璃摩登風 (Glassmorphism) 共用元件
+-------------------------------------------------------------------------- */
+.glass {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px 0 var(--glass-shadow);
+    transition: background var(--transition-normal), 
+                border var(--transition-normal), 
+                box-shadow var(--transition-normal), 
+                transform var(--transition-normal);
+}
+
+.glass:hover {
+    background: var(--glass-bg-hover);
+    box-shadow: 0 12px 40px 0 var(--glass-shadow), 0 0 15px var(--card-glow);
+}
+
+/* --------------------------------------------------------------------------
+   App 版面配置
+-------------------------------------------------------------------------- */
+.app-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 24px 16px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* --------------------------------------------------------------------------
+   頁首 (Header) 與 控制項
+-------------------------------------------------------------------------- */
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding-bottom: 8px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.brand-icon {
+    width: 32px;
+    height: 32px;
+    color: var(--accent-color);
+    animation: pulse 3s infinite ease-in-out;
+}
+
+.brand h1 {
+    font-size: 1.6rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    background: linear-gradient(135deg, var(--text-main) 30%, var(--accent-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.controls {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+/* 城市選擇下拉選單 */
+.select-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.select-icon {
+    position: absolute;
+    left: 14px;
+    width: 18px;
+    height: 18px;
+    color: var(--accent-color);
+    pointer-events: none;
+}
+
+.select-chevron {
+    position: absolute;
+    right: 14px;
+    width: 18px;
+    height: 18px;
+    color: var(--text-muted);
+    pointer-events: none;
+}
+
+#city-select {
+    appearance: none;
+    -webkit-appearance: none;
+    font-family: var(--font-main);
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-main);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 14px;
+    padding: 12px 40px 12px 38px;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    box-shadow: 0 4px 12px var(--glass-shadow);
+    min-width: 160px;
+}
+
+#city-select:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px var(--accent-bg);
+}
+
+#city-select:hover {
+    background: var(--glass-bg-hover);
+}
+
+/* 主題切換器 */
+.theme-switcher {
+    display: flex;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 14px;
+    padding: 3px;
+    box-shadow: 0 4px 12px var(--glass-shadow);
+}
+
+.theme-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border: none;
+    background: transparent;
+    padding: 8px 14px;
+    border-radius: 11px;
+    cursor: pointer;
+    font-family: var(--font-main);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    transition: all var(--transition-normal);
+}
+
+.theme-btn i {
+    width: 16px;
+    height: 16px;
+}
+
+.theme-btn:hover {
+    color: var(--text-main);
+}
+
+.theme-btn.active {
+    background: var(--accent-color);
+    color: #ffffff;
+    box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
+}
+
+/* --------------------------------------------------------------------------
+   主要內容區域 (Main Content)
+-------------------------------------------------------------------------- */
+.app-main {
+    display: grid;
+    grid-template-columns: 1.1fr 1.9fr;
+    gap: 24px;
+    flex-grow: 1;
+}
+
+@media (max-width: 1024px) {
+    .app-main {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* 左側欄：即時天氣 & 詳細指標 */
+.current-weather-section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.weather-card {
+    padding: 28px;
+    position: relative;
+    overflow: hidden;
+}
+
+.weather-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, var(--card-glow) 0%, transparent 60%);
+    pointer-events: none;
+}
+
+.weather-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
+}
+
+.location-info h3 {
+    font-size: 2.2rem;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+    margin-bottom: 4px;
+}
+
+#current-time {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    display: block;
+}
+
+.weather-badge {
+    background: var(--badge-bg);
+    border: 1px solid var(--badge-border);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--badge-text);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.02);
+}
+
+.weather-main {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.temp-display {
+    display: flex;
+    align-items: flex-start;
+}
+
+.temp-value {
+    font-family: 'Outfit', sans-serif;
+    font-size: 5rem;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -2px;
+}
+
+.temp-unit {
+    font-family: 'Outfit', sans-serif;
+    font-size: 2rem;
+    font-weight: 600;
+    margin-top: 8px;
+    margin-left: 2px;
+    color: var(--accent-color);
+}
+
+.weather-icon-wrapper {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.weather-icon-main img {
+    width: 100px;
+    height: 100px;
+    filter: drop-shadow(0 8px 16px rgba(0,0,0,0.15));
+    animation: float 6s ease-in-out infinite;
+}
+
+.weather-icon-main i {
+    width: 60px;
+    height: 60px;
+    color: var(--text-muted);
+}
+
+.loading-spin {
+    animation: spin 2s linear infinite;
+}
+
+.temp-range-container {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 0.95rem;
+    color: var(--text-main);
+    padding-top: 16px;
+    border-top: 1px dashed var(--glass-border);
+}
+
+.temp-range-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.temp-range-item strong {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+}
+
+.temp-up-icon {
+    width: 16px;
+    height: 16px;
+    color: #ef4444;
+}
+
+.temp-down-icon {
+    width: 16px;
+    height: 16px;
+    color: #0ea5e9;
+}
+
+.temp-divider {
+    color: var(--glass-border);
+}
+
+/* 詳細指標網格 (Metrics Grid) */
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+}
+
+@media (max-width: 480px) {
+    .metrics-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.metric-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 20px;
+}
+
+.metric-icon-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+}
+
+.metric-icon-wrapper i {
+    width: 20px;
+    height: 20px;
+}
+
+/* 指標小圖示漸層色 */
+.metric-icon-wrapper.humidity {
+    background: rgba(14, 165, 233, 0.15);
+    color: #0ea5e9;
+}
+.metric-icon-wrapper.wind {
+    background: rgba(100, 116, 139, 0.15);
+    color: #64748b;
+}
+.metric-icon-wrapper.feel {
+    background: rgba(239, 68, 68, 0.15);
+    color: #ef4444;
+}
+.metric-icon-wrapper.pressure {
+    background: rgba(168, 85, 247, 0.15);
+    color: #a855f7;
+}
+.metric-icon-wrapper.sunrise {
+    background: rgba(245, 158, 11, 0.15);
+    color: #f59e0b;
+}
+.metric-icon-wrapper.sunset {
+    background: rgba(236, 72, 153, 0.15);
+    color: #ec4899;
+}
+
+.metric-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.metric-label {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    margin-bottom: 2px;
+}
+
+.metric-value {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+}
+
+/* 右側欄：氣溫預報 & 溫度趨勢 */
+.forecast-section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.forecast-header-container {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.forecast-header-container h2 {
+    font-size: 1.4rem;
+    font-weight: 800;
+    letter-spacing: -0.3px;
+}
+
+.forecast-subtitle {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+/* 五天卡片網格 */
+.forecast-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+}
+
+@media (max-width: 768px) {
+    .forecast-grid {
+        grid-template-columns: repeat(5, 180px);
+        overflow-x: auto;
+        padding-bottom: 10px;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: thin;
+        scrollbar-color: var(--glass-border) transparent;
+    }
+    .forecast-grid::-webkit-scrollbar {
+        height: 6px;
+    }
+    .forecast-grid::-webkit-scrollbar-thumb {
+        background: var(--glass-border);
+        border-radius: 4px;
+    }
+}
+
+.forecast-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 12px;
+    text-align: center;
+    scroll-snap-align: start;
+}
+
+.forecast-day {
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 2px;
+}
+
+.forecast-date {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+}
+
+.forecast-icon {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.forecast-icon img {
+    width: 60px;
+    height: 60px;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+}
+
+.forecast-desc {
+    font-size: 0.8rem;
+    font-weight: 600;
+    background: var(--accent-bg);
+    color: var(--accent-color);
+    padding: 3px 8px;
+    border-radius: 12px;
+    margin-bottom: 16px;
+    min-height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.forecast-temps {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 100%;
+    padding-top: 10px;
+    border-top: 1px dashed var(--glass-border);
+}
+
+.forecast-temp-high {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #ef4444;
+}
+
+.forecast-temp-low {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #0ea5e9;
+}
+
+/* 預覽骷髏骨架 (Skeletons) */
+.forecast-skeleton {
+    height: 180px;
+    animation: pulse 1.5s infinite ease-in-out;
+}
+
+/* 趨勢折線圖卡片 */
+.chart-card {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.chart-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.chart-icon {
+    width: 22px;
+    height: 22px;
+    color: var(--accent-color);
+}
+
+.chart-header h3 {
+    font-size: 1.1rem;
+    font-weight: 800;
+}
+
+.chart-wrapper {
+    width: 100%;
+    height: 220px;
+    position: relative;
+}
+
+.svg-chart-container {
+    width: 100%;
+    height: 100%;
+}
+
+/* SVG 動態元件樣式 */
+.chart-line {
+    fill: none;
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    animation: drawPath 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.chart-line-high {
+    stroke: var(--chart-line-max);
+}
+
+.chart-line-low {
+    stroke: var(--chart-line-min);
+}
+
+.chart-area {
+    opacity: 0.2;
+}
+
+.chart-point {
+    stroke-width: 2.5;
+    fill: var(--glass-bg);
+    cursor: pointer;
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), stroke-width 0.2s ease;
+}
+
+.chart-point:hover {
+    transform: scale(1.4);
+    stroke-width: 3.5;
+}
+
+.chart-point-high {
+    stroke: var(--chart-line-max);
+}
+
+.chart-point-low {
+    stroke: var(--chart-line-min);
+}
+
+.chart-grid-line {
+    stroke: var(--chart-grid);
+    stroke-width: 1;
+    stroke-dasharray: 4,4;
+}
+
+.chart-label-bg {
+    fill: var(--glass-bg);
+    stroke: var(--glass-border);
+    rx: 4px;
+}
+
+.chart-text-val {
+    font-family: 'Outfit', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    fill: var(--text-main);
+    text-anchor: middle;
+}
+
+.chart-axis-text {
+    font-family: var(--font-main);
+    font-size: 11px;
+    font-weight: 600;
+    fill: var(--text-muted);
+    text-anchor: middle;
+}
+
+/* --------------------------------------------------------------------------
+   頁尾 (Footer)
+-------------------------------------------------------------------------- */
+.app-footer {
+    text-align: center;
+    padding: 24px 0 8px 0;
+    margin-top: auto;
+}
+
+.app-footer p {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+#update-timestamp {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 500;
+}
+
+/* --------------------------------------------------------------------------
+   動畫效果 (Animations)
+-------------------------------------------------------------------------- */
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.05);
+        opacity: 0.85;
+    }
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes drawPath {
+    from {
+        stroke-dashoffset: 1000;
+        stroke-dasharray: 1000;
+    }
+    to {
+        stroke-dashoffset: 0;
+        stroke-dasharray: 1000;
+    }
+}
+
+/* 漸變進入效果 */
+.fade-in {
+    animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
